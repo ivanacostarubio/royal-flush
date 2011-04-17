@@ -18,8 +18,14 @@ describe Card, "suit" do
 end
 
 describe Card, "values" do
-  it "has value of 1" do
-    c = Card.new(:clubs, :one)
-    c.value.should == :one
+
+  VALID_VALUES = Card.valid_values
+
+  VALID_VALUES.each do |value|
+    it "has value of #{value}" do
+      c = Card.new(:clubs, value)
+      c.value.should == value
+    end
   end
+
 end
