@@ -41,7 +41,7 @@ describe Card, "values" do
 
   VALID_VALUES.each do |value|
     it "has value of #{value}" do
-      c = Card.new(:clubs, value)
+      c = Card.new(:"♥", value)
       c.value.should == value
     end
   end
@@ -52,6 +52,14 @@ describe Deck do
     d = Deck.new
     d.size.should == Card.valid_suits.size * Card.valid_values.size
   end
+
+  it "can shuffle the cards" do
+    d = Deck.new
+    d.shuffle
+    d.cards[0].should_not == Deck.new.cards[0]
+  end
+
+
 end
 
 describe Player do
@@ -66,7 +74,7 @@ describe Player do
 
   (1..5).each do |number|
     it "can have #{number} card" do
-      subject.cards << Card.new(:hearts, number.to_sym)
+      subject.cards << Card.new(:"♥", number.to_sym)
     end
   end
 
@@ -82,7 +90,7 @@ describe Hand , "Texas Holdem" do
 
     def add_cards
       6.times do |number|
-        @hand.cards << Card.new(:hearts, number.to_sym)
+        @hand.cards << Card.new(:"♥", number.to_sym)
       end
     end
 
@@ -124,6 +132,51 @@ describe Dealer, "knows about texas holdem" do
     subject.turn
     subject.river
     subject.hand.cards.size.should == 5
+  end
+
+  it "deals to a player" do
+    @player = Player.new
+    subject.deal_to_player(@player)
+    @player.cards.size.should == 2
+  end
+end
+
+describe Game, "Texasholdem" do
+  subject { Game.new }
+
+  before(:each) do
+    @player1 = Player.new
+    @player2 = Player.new
+  end
+
+  it "has a dealer" do
+    subject.dealer.class.should == Dealer
+  end
+
+  it "can have players" do
+    subject.players << Player.new
+    subject.players.size.should == 1
+  end
+
+  it "deals two cards to players" do
+    subject.players << @player1
+    subject.players << @player2
+    subject.deal_to_players
+    @player1.cards.size.should == 2
+    @player2.cards.size.should == 2
+  end
+
+  it "starts with an empty hand" do
+    subject.hand.cards.should == []
+  end
+
+  it "it knows about the dealer floping" do
+    subject.dealer.flop
+    subject.hand.cards.size.should == 3
+  end
+
+  it "knows who won the match" do
+    pending
   end
 end
 
