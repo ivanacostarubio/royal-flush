@@ -2,22 +2,6 @@ require 'rubygems'
 require 'rspec'
 require 'lib/card'
 
-  def pair
-    [ Card.new(:suit, :one),
-      Card.new(:heart, :one),
-      Card.new(:heart, :ten),
-      Card.new(:heart, :two),
-      Card.new(:heart, :five)]
-  end
-
-  def single
-    [ Card.new(:suit, :ace),
-      Card.new(:heart, :one),
-      Card.new(:heart, :ten),
-      Card.new(:heart, :two),
-      Card.new(:heart, :five)]
-  end
-
 
 describe Card, "suit" do
 
@@ -181,4 +165,70 @@ describe Game, "Texasholdem" do
 end
 
 describe TexasHoldem do
+end
+
+  def pair
+    [ Card.new(:"♥", :"1"),
+      Card.new(:"♥", :"1"),
+      Card.new(:"♥", :"3"),
+      Card.new(:"♥", :"2"),
+      Card.new(:"♥", :"4")]
+  end
+
+  def single
+    [ Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"10"),
+      Card.new(:"♥", :"3"),
+      Card.new(:"♥", :"2"),
+      Card.new(:"♥", :"4")]
+  end
+
+  def trio 
+    [ Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"2"),
+      Card.new(:"♥", :"4")]
+  end
+
+  def four_of_a_kind
+    [ Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"A"),
+      Card.new(:"♥", :"4")]
+  end
+
+
+
+describe Judge do
+  it "knows about a pair" do
+   r = Judge.new(pair).pair?
+    r.should == true
+ end
+
+ it "returns false for a pair that it is not" do
+    r= Judge.new(single).pair?
+    r.should == false
+  end
+
+  it "knows about a trio" do
+    r = Judge.new(trio).trio?
+    r.should == true
+  end
+
+  it "knows what a trio is not" do
+    r = Judge.new(single).trio?
+    r.should == false
+  end
+
+  it "knows about four of a kind" do
+    r = Judge.new(four_of_a_kind).four_of_a_kind?
+    r.should == true
+  end
+
+  it "knows about four of a kind is not" do
+    r = Judge.new(trio).four_of_a_kind?
+    r.should == false
+  end
 end

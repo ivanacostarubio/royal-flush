@@ -160,6 +160,44 @@ class Game
   end
 end
 
+class Judge
+
+  def initialize(cards)
+    @cards = cards
+  end
+
+  def pair?
+    check_for_identical_values?(2)
+  end
+
+  def trio?
+    check_for_identical_values?(3)
+  end
+
+  def four_of_a_kind?
+    check_for_identical_values?(4)
+  end
+
+  private
+
+  def check_for_identical_values?(number_of_identical_values)
+    group = group_cards_by_value(@cards)
+    has_same_value_card?(number_of_identical_values, group)
+  end
+
+  def group_cards_by_value(cards)
+    cards.group_by {|card| card.value }
+  end
+
+  def has_same_value_card?(number, group)
+    flag = false
+    group.each_pair do |k,v|
+      flag = true if v.size == number
+    end
+    flag
+  end
+end
+
 def build_game
   @game = Game.new
   @player1 = Player.new
