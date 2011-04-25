@@ -168,7 +168,7 @@ describe TexasHoldem do
 end
 
   def pair
-    [ Card.new(:"♥", :"1"),
+    [ Card.new(:"♣", :"1"),
       Card.new(:"♥", :"1"),
       Card.new(:"♥", :"3"),
       Card.new(:"♥", :"2"),
@@ -198,6 +198,25 @@ end
       Card.new(:"♥", :"A"),
       Card.new(:"♥", :"4")]
   end
+
+
+  def flush
+  [ Card.new(:"♥", :"A"),
+  Card.new(:"♥", :"A"),
+  Card.new(:"♥", :"A"),
+  Card.new(:"♥", :"A"),
+  Card.new(:"♥", :"4")]
+  end
+
+
+  def royal_flush
+  [ Card.new(:"♥", :"10"),
+  Card.new(:"♥", :"J"),
+  Card.new(:"♥", :"Q"),
+  Card.new(:"♥", :"K"),
+  Card.new(:"♥", :"A")]
+  end
+
 
 
 
@@ -230,5 +249,50 @@ describe Judge do
   it "knows about four of a kind is not" do
     r = Judge.new(trio).four_of_a_kind?
     r.should == false
+  end
+
+  it "knows about a flush" do
+    r = Judge.new(flush).flush?
+    r.should == true
+  end
+
+  it "knows about what is not a flush" do
+    r = Judge.new(pair).flush?
+    r.should == false
+  end
+
+  it "knows about royal flush" do
+    r = Judge.new(royal_flush).royal_flush?
+    r.should == true
+  end
+
+  it "knows about what a royal flush is not" do
+    r = Judge.new(pair).royal_flush?
+    r.should == false
+  end
+
+  it "knows that not any flush is royal" do
+    r = Judge.new(flush).royal_flush?
+    r.should == false
+  end
+
+  it "knows about high card" do
+    pending
+  end
+
+  it  "knows about two pairs" do
+    pending
+  end
+
+  it "knows about straight" do
+    pending
+  end
+
+  it "knows about full house" do
+    pending
+  end
+
+  it "knows about straight flush" do
+    pending
   end
 end
