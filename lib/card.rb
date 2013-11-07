@@ -44,8 +44,6 @@ class Deck
     self.shuffle
   end
 
-  def size
-    @stack.size
   end
 
   def shuffle
@@ -57,169 +55,13 @@ class Deck
   end
 end
 
-class Player
-  attr_reader :cards
-
-  def initialize
-    @cards = Array.new
-  end
-
-  def cards
-    @cards
-  end
-end
-
-class  Hand
-  def initialize
-    @cards = Array.new
-  end
-  def cards
-    #raise unless self.cards.size > 5
-    @cards
-  end
-
-  def to_s
-    @cards.each do |card|
-      puts card.suit.to_s + " " + card.value.to_s
-    end
-    ''
-  end
-end
-
 class TexasHoldem
-end
-
-class Dealer
-  def initialize game
-    raise "Unsupported Game" unless game.class == TexasHoldem
-    @game = game
-    @deck = Deck.new
-    @hand = Hand.new
-  end
-
-  def deal_to_player(player)
-    2.times { |n| player.cards << @deck.cards.pop  }
-  end
-
-  def flop
-    3.times{ |n| deal }
-  end
-
-  def hand
-    @hand
-  end
-
-  def deck
-    @deck
-  end
-
-  def deal
-    @hand.cards << @deck.cards.pop
-  end
-
-  alias :river :deal ; alias  :turn :deal
-end
-
-class Game
-  def initialize
-    @dealer = Dealer.new(TexasHoldem.new)
-    @players = Array.new
-  end
-
-  def dealer
-    @dealer
-  end
-
-  def players
-    @players
-  end
-
-  def hand
-    @dealer.hand
-  end
-
-  def deal_to_players
-    @players.each do |player|
-      @dealer.deal_to_player(player)
-    end
-  end
-
-  def to_s
-   @players.each do |player|
-
-      puts "#" * 50
-      puts "Player: " + player.object_id.to_s
-      player.cards.each do |card|
-        puts card.suit.to_s + " " + card.value.to_s
-      end
-    end
-
-    puts "#" * 50
-    puts "HAND: "
-    puts self.hand
-  end
-end
-
-class Judge
-
-  def initialize(cards)
-    @cards = cards
-  end
-
-  def pair?
-    check_for_identical_values?(2)
-  end
-
-  def trio?
-    check_for_identical_values?(3)
-  end
-
-  def four_of_a_kind?
-    check_for_identical_values?(4)
-  end
-
-  def flush?
-   @cards.group_by {|card| card.suit }.keys.size == 1
-  end
-
-  def royal_flush?
-    flush? && straight_to_ace?
-  end
-
-  private
-
-  def straight_to_ace?
-    group = group_cards_by_value(@cards)
-    group.keys.include?(:A) &&
-    group.keys.include?(:K) &&
-    group.keys.include?(:Q) &&
-    group.keys.include?(:J) &&
-    group.keys.include?(:"10")
-  end
-
-  def check_for_identical_values?(number_of_identical_values)
-    group = group_cards_by_value(@cards)
-    has_same_value_card?(number_of_identical_values, group)
-  end
-
-  def group_cards_by_value(cards)
-    cards.group_by {|card| card.value }
-  end
-
-  def has_same_value_card?(number, group)
-    flag = false
-    group.each_pair do |k,v|
-      flag = true if v.size == number
-    end
-    flag
-  end
 end
 
 def build_game
   @game = Game.new
   @player1 = Player.new
   @player2 = Player.new
-  @player3 = Player.new
   @game.players << @player3
   @game.players << @player1
   @game.players << @player2
