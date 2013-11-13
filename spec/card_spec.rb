@@ -22,41 +22,18 @@ describe Card, "values" do
 
   VALID_VALUES.each do |value|
     it "has value of #{value}" do
-      c = Card.new(:"♥", value)
+      c = Card.new(:"E", value)
       c.value.should == value
     end
   end
 end
 
 describe Deck do
-  it "has the products of the suits and values" do
-    d = Deck.new
-    d.size.should == Card.valid_suits.size * Card.valid_values.size
-  end
 
   it "can shuffle the cards" do
     d = Deck.new
     d.shuffle
     d.cards[0].should_not == Deck.new.cards[0]
-  end
-
-
-end
-
-describe Player do
-
-  before(:all) do
-    @player = Player.new
-  end
-
-  subject{  @player }
-
-  it{ subject.cards.size.should == 0 }
-
-  (1..5).each do |number|
-    it "can have #{number} card" do
-      subject.cards << Card.new(:"♥", number.to_sym)
-    end
   end
 
 end
@@ -67,153 +44,55 @@ describe Hand , "Texas Holdem" do
   end
 end
 
-
-describe Dealer, "knows about texas holdem" do
-
-  subject  { Dealer.new } 
-
-  it "have an stack of cards" do
-    subject.deck.class == Deck.new
-  end
-
-  it "knows about the hand" do
-    subject.hand.class == Hand.new
-  end
-
-  it "flops 3 cards" do
-    subject.flop
-    subject.hand.cards.size.should == 3
-  end
-
-  it "knows about the turn " do
-    subject.flop
-    subject.turn
-    subject.hand.cards.size.should == 4
-  end
-
-  it "knows about the river" do
-    subject.flop
-    subject.turn
-    subject.river
-    subject.hand.cards.size.should == 5
-  end
-
-  it "deals to a player one time" do
-    @player = Player.new
-    subject.deal_to_player(@player)
-    @player.cards.size.should == 1
-  end
+def pair
+  [ Card.new(:"E", :"1"),
+    Card.new(:"P", :"1"),
+    Card.new(:"E", :"3"),
+    Card.new(:"E", :"2"),
+    Card.new(:"E", :"4")]
 end
 
-describe Truco, "El juego" do
-
-  let(:players) { [Player.new, Player.new] }
-
-  subject { Truco.new players }
-
-  it "has a vira" do 
-    subject.vira.class.should == Vira 
-  end
-
-  it "has two players" do 
-    subject.players.size.should == 2
-  end
-
-  it "deals 3 cards to each player" do
-    subject.deal_to_players
-    subject.players[0].cards.size.should == 3
-    subject.players[1].cards.size.should == 3
-  end
-
-  it "holds the first card for the players" do
-    subject.ask_for_first_hand
-  end
-
-  it "holds the second card for the players"
-  it "holds the thid card for the players"
-
+def single
+  [ Card.new(:"E", :"A"),
+    Card.new(:"E", :"10"),
+    Card.new(:"E", :"3"),
+    Card.new(:"E", :"2"),
+    Card.new(:"E", :"4")]
 end
 
-describe Game, "Texasholdem" do
-  subject { Game.new }
-
-  before(:each) do
-    @player1 = Player.new
-    @player2 = Player.new
-  end
-
-  it "has a dealer" do
-    subject.dealer.class.should == Dealer
-  end
-
-  it "can have players" do
-    subject.players << Player.new
-    subject.players.size.should == 1
-  end
-
-    it "starts with an empty hand" do
-    subject.hand.cards.should == []
-  end
-
-  it "it knows about the dealer floping" do
-    subject.dealer.flop
-    subject.hand.cards.size.should == 3
-  end
-
+def trio 
+  [ Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"2"),
+    Card.new(:"E", :"4")]
 end
 
-describe TexasHoldem do
+def four_of_a_kind
+  [ Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"4")]
 end
 
-  def pair
-    [ Card.new(:"♣", :"1"),
-      Card.new(:"♥", :"1"),
-      Card.new(:"♥", :"3"),
-      Card.new(:"♥", :"2"),
-      Card.new(:"♥", :"4")]
-  end
 
-  def single
-    [ Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"10"),
-      Card.new(:"♥", :"3"),
-      Card.new(:"♥", :"2"),
-      Card.new(:"♥", :"4")]
-  end
-
-  def trio 
-    [ Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"2"),
-      Card.new(:"♥", :"4")]
-  end
-
-  def four_of_a_kind
-    [ Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"A"),
-      Card.new(:"♥", :"4")]
-  end
+def flush
+  [ Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"A"),
+    Card.new(:"E", :"4")]
+end
 
 
-  def flush
-  [ Card.new(:"♥", :"A"),
-  Card.new(:"♥", :"A"),
-  Card.new(:"♥", :"A"),
-  Card.new(:"♥", :"A"),
-  Card.new(:"♥", :"4")]
-  end
-
-
-  def royal_flush
-  [ Card.new(:"♥", :"10"),
-  Card.new(:"♥", :"J"),
-  Card.new(:"♥", :"Q"),
-  Card.new(:"♥", :"K"),
-  Card.new(:"♥", :"A")]
-  end
+def royal_flush
+  [ Card.new(:"E", :"10"),
+    Card.new(:"E", :"J"),
+    Card.new(:"E", :"Q"),
+    Card.new(:"E", :"K"),
+    Card.new(:"E", :"A")]
+end
 
 
 
