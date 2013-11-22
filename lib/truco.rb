@@ -48,16 +48,17 @@ end
 
 class Truco < Game
 
+  attr_reader :first_hand, :second_hand, :third_hand, :dealer, :players, :vira
+
   def initialize(players)
     @players = players
     @vira = Vira.new
     @dealer = Dealer.new
     @dealer.deal_to_player(vira)
+    @first_hand = Hash.new
+    @second_hand = Hash.new
+    @third_hand = Hash.new
   end
-
-  def dealer ; @dealer ; end
-  def vira ; @vira ; end
-  def players ; @players ; end
 
   def deal_to_players
     3.times { players.each { |p| dealer.deal_to_player p } }
@@ -65,6 +66,21 @@ class Truco < Game
 
   def play
     3.times { players.each { |player| ask_for_user_input(player) } }
+  end
+
+  def play_first_hand(player, card)
+    player.delete_card(card)
+    @first_hand[player] = card
+  end
+
+  def play_second_hand(player, card)
+    player.delete_card(card)
+    @second_hand[player] = card
+  end
+
+  def play_third_hand(player, card)
+    player.delete_card(card)
+    @third_hand[player] = card
   end
 
   private
@@ -76,8 +92,5 @@ class Truco < Game
     player.play p.to_i
     100.times{ puts nil } 
   end
-
-  # construir una jugada. Cosa que pueda poner las cartas 
-  # que el usuario tira.
 
 end

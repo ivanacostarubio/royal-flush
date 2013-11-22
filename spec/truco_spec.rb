@@ -21,8 +21,46 @@ describe Truco, "El juego" do
     game.players[1].cards.size.should == 3
   end
 
-  it "asks for the player to play" do
-    game.play
+
+  describe "playing the hands" do
+
+    before(:each) do
+      game.deal_to_players
+    end
+
+    let(:cardp1) { p1.cards[0] }
+    let(:cardp2) { p2.cards[0] }
+
+    def both_players_should_have_two_cards
+      [p1,p2].each{ |p| p.cards.count.should == 2 }
+    end
+
+    it "ask for the first hand" do
+      game.play_first_hand(p1, cardp1)
+      game.play_first_hand(p2, cardp2)
+      game.first_hand.should == {
+        p1 => cardp1, p2 => cardp2
+      }
+      both_players_should_have_two_cards
+    end
+
+    it "ask for the second hand" do
+      game.play_second_hand(p1, cardp1)
+      game.play_second_hand(p2, cardp2)
+      game.second_hand.should == {
+        p1 => cardp1, p2 => cardp2
+      }
+      both_players_should_have_two_cards
+    end
+
+    it "plays the third hand" do
+      game.play_third_hand(p1, cardp1)
+      game.play_third_hand(p2, cardp2)
+      game.third_hand.should == {
+        p1 => cardp1, p2 => cardp2
+      }
+      both_players_should_have_two_cards
+    end
   end
 
 end

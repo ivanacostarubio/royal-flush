@@ -36,6 +36,10 @@ class Player
     end
     nil
   end
+
+  def delete_card(card)
+    cards.delete_if { |x| x == card }
+  end
 end
 
 class Vira < Player ; end
