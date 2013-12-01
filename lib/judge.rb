@@ -1,56 +1,49 @@
 class Judge
+  # For Truco:
+  # 4,5,6,7P, 7C,10,11,12 
+  # 2,3,1
+  # 7O, 7E
+  # 1B, 1E
+  # perica
+  # perico
+
+
+  # Pintas
+  # C,O,P,E 
+  
+  attr_reader :cards 
 
   def initialize(cards)
     @cards = cards
   end
 
-  def pair?
-    check_for_identical_values?(2)
+  def winner
+    cards.sort[-1]
   end
 
-  def trio?
-    check_for_identical_values?(3)
+  def suit_rank
+    [
+      :"E",
+      :"P",
+      :"O",
+      :"C"
+    ]
   end
 
-  def four_of_a_kind?
-    check_for_identical_values?(4)
+  def all_e
+    cards.reject{ |c| c.suit != :"E" }
   end
 
-  def flush?
-   @cards.group_by {|card| card.suit }.keys.size == 1
+  def all_p
+    cards.reject{ |c| c.suit != :"P" }
   end
 
-  def royal_flush?
-    flush? && straight_to_ace?
+  def all_o
+    cards.reject{ |c| c.suit != :"O" }
   end
 
-  private
-
-  def straight_to_ace?
-    group = group_cards_by_value(@cards)
-    group.keys.include?(:A) &&
-    group.keys.include?(:K) &&
-    group.keys.include?(:Q) &&
-    group.keys.include?(:J) &&
-    group.keys.include?(:"10")
+  def all_c
+    cards.reject{ |c| c.suit != :"C" }
   end
 
-  def check_for_identical_values?(number_of_identical_values)
-    group = group_cards_by_value(@cards)
-    has_same_value_card?(number_of_identical_values, group)
-  end
-
-  def group_cards_by_value(cards)
-    cards.group_by {|card| card.value }
-  end
-
-  def has_same_value_card?(number, group)
-    flag = false
-    group.each_pair do |k,v|
-      flag = true if v.size == number
-    end
-    flag
-  end
 end
-
-
