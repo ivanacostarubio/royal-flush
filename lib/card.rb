@@ -13,7 +13,12 @@ class Symbol
       :"C" => 70,
       # VALUES
       :"3" => 30,
-      :"1" => 50
+      :"1" => 50,
+
+      # Special Cases
+      :"7E" => 45,
+      :"7O" => 40,
+      :"1C" => 21
     }
   end
 end
@@ -33,13 +38,25 @@ class Card
     @value = value
   end
 
-  attr_reader :suit, :value
+  attr_accessor :suit, :value
 
   def to_s
     self.suit.to_s + " "  +  self.value.to_s
   end
 
   def <=>(card)
+    @value = :"7E" if is_7_e?
+    card.value = :"7E" if card.is_7_e?
+
+
+    @value = :"7O" if is_7_o?
+    # PENDING THE OTHER CARD
+
+
+    @value = :"1C" if is_1_c?
+    card.value = :"1C" if card.is_1_c?
+
+
     if value == card.value
       if suit.to_value > card.suit.to_value
         return 1
@@ -54,7 +71,20 @@ class Card
     end
   end
 
-  private
+
+  def is_7_e?
+    value == :"7" && suit == :"E"
+  end
+
+  def is_7_o?
+    value == :"7" && suit == :"O"
+  end
+
+  def is_1_c?
+    (value == :"1" && suit == :"C") or (value == :"1C")
+  end
+
+  private 
 
   def self.valid_suits
     VALID_SUITS

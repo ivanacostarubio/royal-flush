@@ -1,3 +1,9 @@
+require_relative '../lib/loader.rb'
+
+#
+# TODO: Refactor these tests so they are more consice.
+#
+
 describe Judge do
 
 
@@ -106,12 +112,53 @@ describe Judge do
       judge.winner.should == card1
     end
 
-    it "1E < 3E" 
-    it "1C < 3E"
+    it "1E > 3E" do 
+      card1 = Card.new(:"E", :"1")
+      card2 = Card.new(:"E", :"3")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card1
+    end
 
-    it "70" 
-    it "perica"
-    it "perico"
+    it "1C < 3E" do 
+      card1 = Card.new(:"C", :"1")
+      card2 = Card.new(:"E", :"3")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card2
+    end
 
+    it "7O < 7E" do
+      card1 = Card.new(:"O", :"7")
+      card2 = Card.new(:"E", :"7")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card2
+    end
+ 
+    it "7O > 3E" do 
+      card1 = Card.new(:"O", :"7")
+      card2 = Card.new(:"E", :"3")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card1
+    end
+
+    it "7O > 1C" do 
+      card1 = Card.new(:"O", :"7")
+      card2 = Card.new(:"C", :"1")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card1
+    end
+
+    it "7O > 3E" do
+      card1 = Card.new(:"O", :"7")
+      card2 = Card.new(:"E", :"3")
+      judge = Judge.new([card1, card2])
+      judge.winner.should == card1
+    end
+
+  end
+
+  describe "Perica" do 
+  end
+
+  describe "Perico" do 
   end
 end
