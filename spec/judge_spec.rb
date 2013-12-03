@@ -1,164 +1,56 @@
 require_relative '../lib/loader.rb'
 
-#
-# TODO: Refactor these tests so they are more consice.
-#
-
 describe Judge do
 
+  [
+    # First is always the winning hand
+    #
+    # SUITS
+    [ [:"E", :"4"], [:"P", :"4"] ],
+    [ [:"P", :"4"], [:"C", :"4"] ],
+    [ [:"O", :"4"], [:"C", :"4"] ],
+    [ [:"P", :"4"], [:"C", :"4"] ],
+    # Basic Numering
+    [ [:"C", :"5"], [:"E", :"4"] ],
+    [ [:"O", :"6"], [:"E", :"5"] ],
+    [ [:"O", :"6"], [:"E", :"5"] ],
+    [ [:"E", :"12"], [ :"C", :"7"]],
+    # 3 Espada
+    [ [ :"E", :"3"], [:"E", :"4"]],
+    [ [ :"E", :"3"], [:"P", :"3"]],
+    [ [ :"E", :"3"], [:"E", :"2"]],
+    [ [ :"E", :"3"], [:"C", :"1"]],
+    # 1 de Espada
+    [[:"E", :"1"], [:"E", :"2"]],
+    [[:"E", :"1"], [:"O", :"7"]],
+    [[:"E", :"1"], [:"E", :"7"]],
+    [[:"E", :"1"], [:"E", :"3"]],
+    # 1 PALO
+    [[:"P", :"1"], [:"E", :"3"]],
+    [[:"P", :"1"], [:"O", :"7"]],
+    # 7 de Espada
+    [[:"E", :"7"], [:"E", :"3"]],
+    [[:"E", :"7"], [:"O", :"7"]],
+    # 7 de Oro
+    [[:"O", :"7"], [:"E", :"3"]],
+    [[:"O", :"7"], [:"C", :"1"]],
+    [[:"O", :"7"], [:"E", :"3"]],
+    [[:"O", :"7"], [:"O", :"12"]],
+    [[:"O", :"7"], [:"E", :"2"]],
+    # otros
 
-  describe "Suits" do 
-
-    it " 4E > 4p" do 
-      card1 = Card.new(:"E", :"4")
-      card2 = Card.new(:"P", :"4")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it " 4p > 4o" do
-      card1 = Card.new(:"C", :"4")
-      card2 = Card.new(:"P", :"4")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it " 4o > 4c" do
-      card1 = Card.new(:"C", :"4")
-      card2 = Card.new(:"O", :"4")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "4p > 4c" do
-      card1 = Card.new(:"P", :"4")
-      card2 = Card.new(:"C", :"4")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
+  ].each do |card|
+      it "#{card[0][0]} #{card[0][1] } > #{card[1][0]} #{card[1][1]}" do
+        card1 = Card.new(card[0][0], card[0][1])
+        card2 = Card.new(card[1][0], card[1][1])
+        judge = Judge.new([card1, card2])
+        judge.winner.should == card1
+      end
   end
+end
 
-  describe "Basic Numbers" do 
+describe "Perica" do
+end
 
-    it "5C > 4E" do 
-      card1 = Card.new(:"C", :"5")
-      card2 = Card.new(:"E", :"4")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "6O > 5E" do 
-      card1 = Card.new(:"O", :"6")
-      card2 = Card.new(:"E", :"5")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "12E > 7C" do
-      card1 = Card.new(:"C", :"7")
-      card2 = Card.new(:"E", :"12")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-  end
-
-  describe "first 3 numbers are better (1,2,3)" do 
-    it "3 is better than 4" do
-      card1 = Card.new(:"E", :"4")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "3E > 3P" do 
-      card1 = Card.new(:"P", :"3")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "2E < 3P" do 
-      card1 = Card.new(:"E", :"3")
-      card2 = Card.new(:"E", :"2")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "1E > 2E" do 
-      card1 = Card.new(:"E", :"1")
-      card2 = Card.new(:"E", :"2")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "1P > 3E" do 
-      card1 = Card.new(:"E", :"3")
-      card2 = Card.new(:"E", :"1")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "3E > 2P" do 
-      card1 = Card.new(:"E", :"3")
-      card2 = Card.new(:"P", :"1")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "7E > 3E" do
-      card1 = Card.new(:"E", :"7")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "1E > 3E" do 
-      card1 = Card.new(:"E", :"1")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "1C < 3E" do 
-      card1 = Card.new(:"C", :"1")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
-
-    it "7O < 7E" do
-      card1 = Card.new(:"O", :"7")
-      card2 = Card.new(:"E", :"7")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card2
-    end
- 
-    it "7O > 3E" do 
-      card1 = Card.new(:"O", :"7")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "7O > 1C" do 
-      card1 = Card.new(:"O", :"7")
-      card2 = Card.new(:"C", :"1")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-    it "7O > 3E" do
-      card1 = Card.new(:"O", :"7")
-      card2 = Card.new(:"E", :"3")
-      judge = Judge.new([card1, card2])
-      judge.winner.should == card1
-    end
-
-  end
-
-  describe "Perica" do 
-  end
-
-  describe "Perico" do 
-  end
+describe "Perico" do
 end
