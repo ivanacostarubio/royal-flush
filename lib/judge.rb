@@ -7,7 +7,6 @@ class Judge
   # perica
   # perico
 
-
   # Pintas
   # C,O,P,E 
   
@@ -28,22 +27,6 @@ class Judge
       :"O",
       :"C"
     ]
-  end
-
-  def all_e
-    cards.reject{ |c| c.suit != :"E" }
-  end
-
-  def all_p
-    cards.reject{ |c| c.suit != :"P" }
-  end
-
-  def all_o
-    cards.reject{ |c| c.suit != :"O" }
-  end
-
-  def all_c
-    cards.reject{ |c| c.suit != :"C" }
   end
 
 end
