@@ -43,6 +43,9 @@ describe Judge do
     [[:"O", :"7"], [:"E", :"3"]],
     [[:"O", :"7"], [:"O", :"12"]],
     [[:"O", :"7"], [:"E", :"2"]],
+
+
+    [[:"O", :"7"], [:"O", :"12"]]
     # otros
 
   ].each do |card|
@@ -56,13 +59,64 @@ describe Judge do
 end
 
 describe "Perica" do
+
+  [
+    [[:"O", :"10"], [:"E", :"1"], [:"O", :"1"]],
+    [[:"O", :"10"], [:"P", :"1"], [:"O", :"2"]],
+    [[:"O", :"10"], [:"E", :"7"], [:"O", :"3"]],
+    [[:"E", :"10"], [:"E", :"2"], [:"E", :"3"]],
+    # cases for perica being 12
+    [[:"E", :"12"], [:"E", :"1"], [:"E", :"10"]],
+    [[:"P", :"12"], [:"E", :"1"], [:"P", :"10"]],
+    [[:"O", :"12"], [:"E", :"7"], [:"O", :"10"]],
+
+
+    # TODO: The test below should fail
+    #
+    [[:"O", :"12"], [:"O", :"7"], [:"E", :"10"]]
+
+  ].each do |card|
+    it "wins for #{card[1][0]} #{card[1][1]}" do
+      card1 = Card.new(card[0][0], card[0][1])
+      card2 = Card.new(card[1][0], card[1][1])
+      vira = Card.new(card[2][0], card[2][1])
+      judge = Judge.new([card1, card2])
+      judge.vira = vira
+      judge.winner.should == card1
+    end
+  end
+ 
 end
 
 describe "Perico" do
-end
+  [
+    [[:"E", :"11"], [:"E", :"10"], [:"E", :"1"]],
+    [[:"O", :"11"], [:"E", :"1"], [:"O", :"1"]],
+    [[:"O", :"11"], [:"P", :"1"], [:"O", :"2"]],
+    [[:"O", :"11"], [:"E", :"7"], [:"O", :"3"]],
+    [[:"E", :"11"], [:"E", :"2"], [:"E", :"3"]],
 
-describe "12 perica" do
-end
+    # cases for perico being 12
+    [[:"E", :"12"], [:"E", :"1"], [:"E", :"11"]],
+    [[:"E", :"12"], [:"O", :"7"], [:"E", :"11"]],
 
-describe "12 perico" do
+    [[:"P", :"12"], [:"E", :"1"], [:"P", :"11"]],
+    [[:"E", :"12"], [:"P", :"12"], [:"E", :"11"]],
+    [[:"O", :"12"], [:"O", :"7"], [:"O", :"11"]],
+    [[:"O", :"7"], [:"O", :"12"], [:"E", :"11"]],
+
+    # TODO: The test below should fail
+    [[:"O", :"12"], [:"O", :"7"], [:"E", :"11"]]
+
+  ].each do |card|
+    it "wins for #{card[1][0]} #{card[1][1]}" do
+      card1 = Card.new(card[0][0], card[0][1])
+      card2 = Card.new(card[1][0], card[1][1])
+      vira = Card.new(card[2][0], card[2][1])
+      judge = Judge.new([card1, card2])
+      judge.vira = vira
+      judge.winner.should == card1
+    end
+  end
+ 
 end
