@@ -50,7 +50,7 @@ class Card
 
 
     @value = :"7O" if is_7_o?
-    # PENDING THE OTHER CARD
+    card.value = :"7O" if card.is_7_o?
 
 
     @value = :"1C" if is_1_c?
