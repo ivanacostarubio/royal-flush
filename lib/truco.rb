@@ -100,16 +100,12 @@ class Truco < Game
   end
 
   def winner_of_hand(hand)
-    # TODO: Take into account multiple players
-    c1 = hand[@players[0]]
-    c2 = hand[@players[1]]
-    judge = Judge.new([c1,c2])
-    winning_card = judge.winner
+    cards = @players.map{|p| hand[p] }
+    winning_card = Judge.new(cards).winner
     (winning_card == hand[@players[0]]) ? @players[0] : @players[1]
   end
 
   # TODO: Game Winner
-  #
   # TODO: Logic for: Envido, truco, etc. AKA Apostar.
   private
 
