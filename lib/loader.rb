@@ -17,6 +17,6 @@ def build_game
   @game.play
 
   puts "EL GANADOR:"
-  puts @game.winner
+  puts @game.winner.nickname
   nil
 end
