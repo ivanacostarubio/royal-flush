@@ -122,5 +122,11 @@ describe Truco, "El juego" do
       play_third_hand
       game.winner.should == game.players[0]
     end
+
+    it "knows a player won after winning the first two hands" do 
+      play_first_hand
+      play_second_hand
+      game.winner.should == game.players[0]
+    end
   end
 end

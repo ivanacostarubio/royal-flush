@@ -100,9 +100,7 @@ class Truco < Game
   end
 
   def winner
-    player = [ first_hand_winner, second_hand_winner, third_hand_winner].group_by { |d| d }.keys.first
-    puts "The Winner is #{player.nickname}"
-    player
+    player_won_first_two_hands? ? first_hand_winner : player_that_won_most_matches
   end
 
   # TODO: Logic for: Envido, truco, etc. AKA Apostar.
@@ -112,28 +110,36 @@ class Truco < Game
     self.to_s
     players.each { |player| ask_for_user_input(player, "play_second_hand") }
     self.to_s
+    return if player_won_first_two_hands?
     players.each { |player| ask_for_user_input(player, "play_third_hand") }
     self.to_s
   end
 
   def to_s
-    puts "#" * 100
     puts "First Hand:"
-    @first_hand.each do |k,v|
-      puts "#{k.nickname}: #{v.to_s}"
-    end
-    puts "#" * 100
-    @second_hand.each do |k,v|
-      puts "#{k.nickname}: #{v.to_s}"
-    end
-    puts "#" * 100
-    @third_hand.each do |k,v|
+    display_hand(@first_hand)
+    puts "Second Hand:"
+    display_hand(@second_hand)
+    puts "Third Hand:"
+    display_hand(@third_hand)
+ end
+
+  private
+
+  def display_hand(hand)
+    puts "#" * 20
+    hand.each do |k,v|
       puts "#{k.nickname}: #{v.to_s}"
     end
   end
 
+  def player_that_won_most_matches
+    [ first_hand_winner, second_hand_winner, third_hand_winner].group_by { |d| d }.keys.first
+  end
 
-  private
+  def player_won_first_two_hands?
+    first_hand_winner == second_hand_winner
+  end
 
   def ask_for_user_input(player, method)
     puts "La vira: #{vira.card.to_s}"
