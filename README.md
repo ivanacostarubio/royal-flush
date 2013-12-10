@@ -1,11 +1,9 @@
- A Ruby based Texas Holdem Library
+# Venezuelan Truco in Ruby. #
 
-![Royal Flush](https://github.com/ivanacostarubio/royal-flush/raw/master/support/royal_flush.jpg)
+This is a small game engine that allows you to play Truco Venezuelan style.
 
-[Royal Flush at World Series of Poker 2007](http://www.youtube.com/watch?v=lvflmlnIpdw)
+Take a look at lib/loader for an example on how to initiate the game. Moreover, we have a good test suite that will give you an idea of how to put everything together.
 
+### TODO: ###
 
-Rules / Hands
---------------
-
-![Rules](https://github.com/ivanacostarubio/royal-flush/raw/master/support/poker-hands.jpg))
+- Logic for envido, truco, etc. AKA apostar between moves. See /lib/truco.rb and spec/truco.rb
