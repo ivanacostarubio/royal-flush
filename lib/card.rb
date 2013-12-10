@@ -14,11 +14,13 @@ class Symbol
       # VALUES
       :"3" => 30,
       :"1" => 50,
+      :"2" => 21,
 
       # Special Cases
       :"7E" => 45,
       :"7O" => 40,
-      :"1C" => 21
+      :"1C" => 20,
+      :"1O" => 20
     }
   end
 end
@@ -56,6 +58,8 @@ class Card
     @value = :"1C" if is_1_c?
     card.value = :"1C" if card.is_1_c?
 
+    @value = :"1O" if is_1_o?
+    card.value = :"1O" if card.is_1_o?
 
     if value == card.value
       if suit.to_value > card.suit.to_value
@@ -83,6 +87,12 @@ class Card
   def is_1_c?
     (value == :"1" && suit == :"C") or (value == :"1C")
   end
+
+  def is_1_o?
+    (value == :"1" && suit == :"O") or (value == :"1O")
+  end
+
+
 
   private 
 
