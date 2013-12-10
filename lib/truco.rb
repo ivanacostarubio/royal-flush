@@ -52,8 +52,8 @@ class Truco < Game
 
   def initialize(players)
     @players = players
-    @vira = Vira.new
     @dealer = Dealer.new
+    @vira = Vira.new
     @dealer.deal_to_player(vira)
     @first_hand = Hash.new
     @second_hand = Hash.new
@@ -62,10 +62,6 @@ class Truco < Game
 
   def deal_to_players
     3.times { players.each { |p| dealer.deal_to_player p } }
-  end
-
-  def play
-    3.times { players.each { |player| ask_for_user_input(player) } }
   end
 
   def play_first_hand(player, card)
@@ -83,41 +79,71 @@ class Truco < Game
     @third_hand[player] = card
   end
 
-  # TODO:
-  #
-  # first_hand winner
-  #
   def first_hand_winner
-    winner_of_hand(@first_hand)
+    @first_hand_winner ||= winner_of_hand(@first_hand)
   end
 
   def second_hand_winner
-    winner_of_hand(@second_hand)
+    @second_hand_winner ||= winner_of_hand(@second_hand)
   end
 
   def third_hand_winner
-    winner_of_hand(@third_hand)
+    @third_hand_winner ||= winner_of_hand(@third_hand)
   end
 
   def winner_of_hand(hand)
     cards = @players.map{|p| hand[p] }
-    winning_card = Judge.new(cards).winner
+    judge = Judge.new(cards)
+    judge.vira = vira.card
+    winning_card = judge.winner
     (winning_card == hand[@players[0]]) ? @players[0] : @players[1]
   end
 
   def winner
-    [ first_hand_winner, second_hand_winner, third_hand_winner].group_by { |d| d }.keys.first
+    player = [ first_hand_winner, second_hand_winner, third_hand_winner].group_by { |d| d }.keys.first
+    puts "The Winner is #{player.nickname}"
+    player
   end
 
   # TODO: Logic for: Envido, truco, etc. AKA Apostar.
+  
+  def play
+    players.each { |player| ask_for_user_input(player, "play_first_hand") }
+    self.to_s
+    players.each { |player| ask_for_user_input(player, "play_second_hand") }
+    self.to_s
+    players.each { |player| ask_for_user_input(player, "play_third_hand") }
+    self.to_s
+  end
+
+  def to_s
+    puts "#" * 100
+    puts "First Hand:"
+    @first_hand.each do |k,v|
+      puts "#{k.nickname}: #{v.to_s}"
+    end
+    puts "#" * 100
+    @second_hand.each do |k,v|
+      puts "#{k.nickname}: #{v.to_s}"
+    end
+    puts "#" * 100
+    @third_hand.each do |k,v|
+      puts "#{k.nickname}: #{v.to_s}"
+    end
+  end
+
+
   private
 
-  def ask_for_user_input(player)
+  def ask_for_user_input(player, method)
+    puts "La vira: #{vira.card.to_s}"
     puts "What are you going to Play?"
     puts player.display_posible_moves
     p = gets
-    player.play p.to_i
+    card = player.play p.to_i
+    self.send(method, player, card)
     100.times{ puts nil } 
   end
+
 
 end

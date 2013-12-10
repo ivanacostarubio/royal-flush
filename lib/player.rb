@@ -1,8 +1,10 @@
 class Player
   attr_reader :cards
+  attr_accessor :nickname
 
-  def initialize
+  def initialize(nickname=nil)
     @cards = Array.new
+    @nickname = nickname
   end
 
   def cards
@@ -42,4 +44,10 @@ class Player
   end
 end
 
-class Vira < Player ; end
+class Vira < Player 
+
+  def card
+    cards[0]
+  end
+  
+end
