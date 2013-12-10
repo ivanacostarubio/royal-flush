@@ -16,6 +16,10 @@ describe Truco, "El juego" do
     game.players.size.should == 2
   end
 
+  it "return the other player" do 
+    game.other_player(p1).should == p2
+  end
+
   it "deals 3 cards to each player" do
     game.deal_to_players
     game.players[0].cards.size.should == 3
@@ -127,6 +131,44 @@ describe Truco, "El juego" do
       play_first_hand
       play_second_hand
       game.winner.should == game.players[0]
+    end
+  end
+
+  describe "GamePlay" do 
+    it "knows which user to ask first for input after the first hand has been won" do 
+      card1 = Card.new(:"P", :"1")
+      card2 = Card.new(:"E", :"1")
+      p1 = game.players[0]
+      p1.cards << card1
+      p2 = game.players[1]
+      p2.cards << card2
+      game.play_first_hand(p1, p1.cards[0])
+      game.play_first_hand(p2, p2.cards[0])
+
+      game.first_turn_for_second_hand.should == p2
+    end
+
+    it "knows which user to ask for input after the second hand" do 
+      card1 = Card.new(:"P", :"1")
+      card2 = Card.new(:"E", :"1")
+      p1 = game.players[0]
+      p1.cards << card1
+      p2 = game.players[1]
+      p2.cards << card2
+      game.play_first_hand(p1, p1.cards[0])
+      game.play_first_hand(p2, p2.cards[0])
+
+      card1 = Card.new(:"E", :"7")
+      card2 = Card.new(:"E", :"2")
+      p1 = game.players[0]
+      p1.cards << card1
+      p2 = game.players[1]
+      p2.cards << card2
+      game.play_second_hand(p1, p1.cards[0])
+      game.play_second_hand(p2, p2.cards[0])
+
+      game.first_turn_for_third_hand.should == p1
+ 
     end
   end
 end

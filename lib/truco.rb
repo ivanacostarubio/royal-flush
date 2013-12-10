@@ -106,12 +106,21 @@ class Truco < Game
   # TODO: Logic for: Envido, truco, etc. AKA Apostar.
   
   def play
+    # playing the first hand
     players.each { |player| ask_for_user_input(player, "play_first_hand") }
     self.to_s
-    players.each { |player| ask_for_user_input(player, "play_second_hand") }
+
+    #playing the second hand
+    ask_for_user_input(first_hand_winner, "play_second_hand")
+    ask_for_user_input(other_player(first_hand_winner), "play_second_hand")
+
     self.to_s
     return if player_won_first_two_hands?
-    players.each { |player| ask_for_user_input(player, "play_third_hand") }
+
+    #playing the third hand
+    ask_for_user_input(second_hand_winner, "play_third_hand")
+    ask_for_user_input(other_player(second_hand_winner), "play_third_hand")
+
     self.to_s
   end
 
@@ -122,7 +131,19 @@ class Truco < Game
     display_hand(@second_hand)
     puts "Third Hand:"
     display_hand(@third_hand)
- end
+  end
+
+  def first_turn_for_second_hand
+    first_hand_winner
+  end
+
+  def first_turn_for_third_hand
+    second_hand_winner
+  end
+
+  def other_player(p)
+    players.clone.reject{ |player| player == p}[0]
+  end
 
   private
 
@@ -143,13 +164,12 @@ class Truco < Game
 
   def ask_for_user_input(player, method)
     puts "La vira: #{vira.card.to_s}"
-    puts "What are you going to Play?"
+    puts "What are you going to Play #{player.nickname}?"
     puts player.display_posible_moves
     p = gets
     card = player.play p.to_i
     self.send(method, player, card)
     100.times{ puts nil } 
   end
-
 
 end
