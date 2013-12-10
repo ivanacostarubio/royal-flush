@@ -105,7 +105,10 @@ class Truco < Game
     (winning_card == hand[@players[0]]) ? @players[0] : @players[1]
   end
 
-  # TODO: Game Winner
+  def winner
+    [ first_hand_winner, second_hand_winner, third_hand_winner].group_by { |d| d }.keys.first
+  end
+
   # TODO: Logic for: Envido, truco, etc. AKA Apostar.
   private
 

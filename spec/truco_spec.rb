@@ -1,3 +1,4 @@
+
 describe Truco, "El juego" do
 
   let(:p1) { Player.new }
@@ -65,23 +66,19 @@ describe Truco, "El juego" do
 
   describe "judging" do 
 
-    it "the first hand" do 
+    def play_first_hand
       card1 = Card.new(:"E", :"1")
       card2 = Card.new(:"P", :"1")
-
       p1 = game.players[0]
       p1.cards << card1
-
       p2 = game.players[1]
       p2.cards << card2
-
       game.play_first_hand(p1, p1.cards[0])
       game.play_first_hand(p2, p2.cards[0])
-
       game.first_hand_winner.should == p1
     end
 
-    it "the second hand" do 
+    def play_second_hand
       card1 = Card.new(:"E", :"1")
       card2 = Card.new(:"P", :"1")
       p1 = game.players[0]
@@ -92,8 +89,9 @@ describe Truco, "El juego" do
       game.play_second_hand(p2, p2.cards[0])
       game.second_hand_winner.should == p1
     end
+ 
 
-    it "the third hand" do 
+    def play_third_hand
       card1 = Card.new(:"E", :"1")
       card2 = Card.new(:"P", :"1")
       p1 = game.players[0]
@@ -103,6 +101,26 @@ describe Truco, "El juego" do
       game.play_third_hand(p1, p1.cards[0])
       game.play_third_hand(p2, p2.cards[0])
       game.third_hand_winner.should == p1
+    end
+ 
+
+    it "the first hand" do
+      play_first_hand
+    end
+
+    it "the second hand" do
+      play_second_hand
+    end
+
+    it "the third hand" do
+      play_third_hand
+    end
+
+    it "knows the overall winner" do
+      play_first_hand
+      play_second_hand
+      play_third_hand
+      game.winner.should == game.players[0]
     end
   end
 end
