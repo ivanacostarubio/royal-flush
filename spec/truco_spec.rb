@@ -35,7 +35,7 @@ describe Truco, "El juego" do
       [p1,p2].each{ |p| p.cards.count.should == 2 }
     end
 
-    it "ask for the first hand" do
+    it "plays the first hand" do
       game.play_first_hand(p1, cardp1)
       game.play_first_hand(p2, cardp2)
       game.first_hand.should == {
@@ -44,7 +44,7 @@ describe Truco, "El juego" do
       both_players_should_have_two_cards
     end
 
-    it "ask for the second hand" do
+    it "plays the second hand" do
       game.play_second_hand(p1, cardp1)
       game.play_second_hand(p2, cardp2)
       game.second_hand.should == {

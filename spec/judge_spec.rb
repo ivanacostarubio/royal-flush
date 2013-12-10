@@ -48,7 +48,7 @@ describe Judge do
     # otros
 
   ].each do |card|
-      it "#{card[0][0]} #{card[0][1] } > #{card[1][0]} #{card[1][1]}" do
+      it "#{card[0][0]} #{card[0][1] } > #{card[1][0]} #{card[1][1]} without vira" do
         card1 = Card.new(card[0][0], card[0][1])
         card2 = Card.new(card[1][0], card[1][1])
         judge = Judge.new([card1, card2])
@@ -72,7 +72,7 @@ describe "Perica" do
     [[:"O", :"7"], [:"O", :"12"], [:"P", :"10"]],
 
   ].each do |card|
-    it "wins for #{card[1][0]} #{card[1][1]}" do
+    it "wins for #{card[1][0]} #{card[1][1]} with vira #{card[2][0]} #{card[2][1]}" do
       card1 = Card.new(card[0][0], card[0][1])
       card2 = Card.new(card[1][0], card[1][1])
       vira = Card.new(card[2][0], card[2][1])
@@ -101,7 +101,8 @@ describe "Perico" do
     [[:"O", :"7"], [:"O", :"12"], [:"E", :"11"]],
 
   ].each do |card|
-    it "#{card[0][0]} #{card[0][1] } wins over #{card[1][0]} #{card[1][1]}" do
+    it "#{card[0][0]} #{card[0][1] } wins over #{card[1][0]} #{card[1][1]} with vira #{card[2][0]} #{card[2][1]}" do
+
       card1 = Card.new(card[0][0], card[0][1])
       card2 = Card.new(card[1][0], card[1][1])
       vira = Card.new(card[2][0], card[2][1])

@@ -2,7 +2,9 @@ describe Player do
 
   before(:each) { @player = Player.new }
 
-  it { subject.cards.size.should == 0 }
+  it "stats with 0 cards" do 
+    subject.cards.size.should == 0
+  end
 
   let(:card1) { Card.new(:"E", 1) }
   let(:card2) { Card.new(:"E", 2) }
