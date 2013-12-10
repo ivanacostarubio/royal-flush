@@ -83,6 +83,34 @@ class Truco < Game
     @third_hand[player] = card
   end
 
+  # TODO:
+  #
+  # first_hand winner
+  #
+  def first_hand_winner
+    winner_of_hand(@first_hand)
+  end
+
+  def second_hand_winner
+    winner_of_hand(@second_hand)
+  end
+
+  def third_hand_winner
+    winner_of_hand(@third_hand)
+  end
+
+  def winner_of_hand(hand)
+    # TODO: Take into account multiple players
+    c1 = hand[@players[0]]
+    c2 = hand[@players[1]]
+    judge = Judge.new([c1,c2])
+    winning_card = judge.winner
+    (winning_card == hand[@players[0]]) ? @players[0] : @players[1]
+  end
+
+  # TODO: Game Winner
+  #
+  # TODO: Logic for: Envido, truco, etc. AKA Apostar.
   private
 
   def ask_for_user_input(player)

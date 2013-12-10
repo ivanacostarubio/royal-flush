@@ -63,34 +63,46 @@ describe Truco, "El juego" do
     end
   end
 
+  describe "judging" do 
+
+    it "the first hand" do 
+      card1 = Card.new(:"E", :"1")
+      card2 = Card.new(:"P", :"1")
+
+      p1 = game.players[0]
+      p1.cards << card1
+
+      p2 = game.players[1]
+      p2.cards << card2
+
+      game.play_first_hand(p1, p1.cards[0])
+      game.play_first_hand(p2, p2.cards[0])
+
+      game.first_hand_winner.should == p1
+    end
+
+    it "the second hand" do 
+      card1 = Card.new(:"E", :"1")
+      card2 = Card.new(:"P", :"1")
+      p1 = game.players[0]
+      p1.cards << card1
+      p2 = game.players[1]
+      p2.cards << card2
+      game.play_second_hand(p1, p1.cards[0])
+      game.play_second_hand(p2, p2.cards[0])
+      game.second_hand_winner.should == p1
+    end
+
+    it "the third hand" do 
+      card1 = Card.new(:"E", :"1")
+      card2 = Card.new(:"P", :"1")
+      p1 = game.players[0]
+      p1.cards << card1
+      p2 = game.players[1]
+      p2.cards << card2
+      game.play_third_hand(p1, p1.cards[0])
+      game.play_third_hand(p2, p2.cards[0])
+      game.third_hand_winner.should == p1
+    end
+  end
 end
-
-describe Game, "Texasholdem" do
-  subject { Game.new }
-
-  before(:each) do
-    @player1 = Player.new
-    @player2 = Player.new
-  end
-
-  it "has a dealer" do
-    subject.dealer.class.should == Dealer
-  end
-
-  it "can have players" do
-    subject.players << Player.new
-    subject.players.size.should == 1
-  end
-
-    it "starts with an empty hand" do
-    subject.hand.cards.should == []
-  end
-
-  it "it knows about the dealer floping" do
-    subject.dealer.flop
-    subject.hand.cards.size.should == 3
-  end
-
-end
-
-
