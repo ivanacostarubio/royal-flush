@@ -109,12 +109,14 @@ class Truco < Game
     # playing the first hand
     players.each { |player| ask_for_user_input(player, "play_first_hand") }
     self.to_s
+    puts " the winner of the first hand #{first_hand_winner.nickname}"
 
     #playing the second hand
     ask_for_user_input(first_hand_winner, "play_second_hand")
     ask_for_user_input(other_player(first_hand_winner), "play_second_hand")
 
     self.to_s
+    puts " the winner of the second hand #{second_hand_winner.nickname}"
     return if player_won_first_two_hands?
 
     #playing the third hand
@@ -148,6 +150,7 @@ class Truco < Game
   private
 
   def display_hand(hand)
+    return if hand == {}
     puts "#" * 20
     hand.each do |k,v|
       puts "#{k.nickname}: #{v.to_s}"
