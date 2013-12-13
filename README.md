@@ -6,13 +6,13 @@ Take a look at lib/loader for an example on how to initiate the game. Moreover, 
 
 ### TODO: ###
 
-# ##### this is on truco-ruby.
-# being able to bet on each hand
+- Envido
+- quiero
+- quiero y envido
+- Flor
+
+
 # have a gameloop that goes up to 12 points.
 ######
-
-- Being able to call @game.winner_for_first_hand without playing the first hand. Also for second and third hand. 
-
-- Logic for envido, truco, etc. AKA apostar between moves. See /lib/truco.rb and spec/truco.rb
 
 - validations: When asking a user for input, we must validate he chooses a correct card.
