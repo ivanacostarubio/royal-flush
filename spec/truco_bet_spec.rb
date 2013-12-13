@@ -10,6 +10,10 @@ describe TrucoBet do
     TrucoBet.new(game).players.should == [ivan,bellatrix]
   end
 
+  it "no se puede decir vale nueve de una"
+  it "no se puede decir quiero_y_retruco antes que truco"
+  it "no se puede decir vale juego antes que el truco, retruco y vale nueve"
+
   describe "cantar truco" do 
 
     let(:bet) { TrucoBet.new(game) }

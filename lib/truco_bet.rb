@@ -26,11 +26,13 @@ class TrucoBet
   end
 
   def quiero_y_vale_nueve
+    # TODO: test
     @score = 9
     cambiar_el_contador_de_truco
   end
 
   def quiero_y_vale_juego
+    # TODO: test
     @score = game.end_game_score
     cambiar_el_contador_de_truco
   end
