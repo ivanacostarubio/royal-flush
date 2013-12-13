@@ -4,6 +4,10 @@ class Game
     @players = Array.new
   end
 
+  def end_game_score
+    12
+  end
+
   def dealer
     @dealer
   end
@@ -80,14 +84,17 @@ class Truco < Game
   end
 
   def first_hand_winner
+    return nil unless @first_hand.values.count == 2
     @first_hand_winner ||= winner_of_hand(@first_hand)
   end
 
   def second_hand_winner
+    return nil unless @second_hand.values.count == 2
     @second_hand_winner ||= winner_of_hand(@second_hand)
   end
 
   def third_hand_winner
+    return nil unless @third_hand.values.count == 2
     @third_hand_winner ||= winner_of_hand(@third_hand)
   end
 

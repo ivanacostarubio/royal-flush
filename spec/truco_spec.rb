@@ -1,3 +1,4 @@
+require 'spec_helper'
 
 describe Truco, "El juego" do
 
@@ -7,6 +8,10 @@ describe Truco, "El juego" do
   let(:players) { [p1, p2] }
 
   let(:game) { Truco.new players }
+
+  it "ends at 12" do
+    game.end_game_score.should == 12
+  end
 
   it "has a vira" do 
     game.vira.class.should == Vira 
@@ -25,6 +30,20 @@ describe Truco, "El juego" do
     game.players[0].cards.size.should == 3
     game.players[1].cards.size.should == 3
   end
+
+  it "can ask who won the first hand without crashing" do
+    game.first_hand_winner.should == nil
+  end
+
+  it "can ask who won the second hand without crashing" do
+    game.second_hand_winner.should == nil
+  end
+
+  it "can ask who won the third hand without crashing" do
+    game.third_hand_winner.should == nil
+  end
+
+
 
 
   describe "playing the hands" do
