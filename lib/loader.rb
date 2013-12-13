@@ -6,6 +6,7 @@ require './lib/judge'
 require './lib/player'
 require './lib/truco'
 require './lib/deck'
+require './lib/truco_bet'
 
 def build_game
   @player1 = Player.new "Ivan"
